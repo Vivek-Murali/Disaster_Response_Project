@@ -2,6 +2,8 @@ import sys
 import pandas as pd
 from sqlalchemy import *
 from typing import List,Dict
+import re
+
 
 def load_data(messages_filepath:str, categories_filepath:str)->pd.DataFrame:
     """
@@ -17,6 +19,7 @@ def load_data(messages_filepath:str, categories_filepath:str)->pd.DataFrame:
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     df = pd.merge(messages, categories, on='id', how='outer')
+    df.dropna(inplace=True)
     return df
 
 
@@ -31,7 +34,6 @@ def process_text(sent):
             sent = re.sub(r" +([\.\?,!])", r"\1", sent) # remove extra spaces in front of punc
             sent = re.sub(r"^ +(.*)", r"\1", sent) # remove space at beginning
             sent = re.sub(' {2,}', ' ', sent)
-            sent = sent[0].upper() + sent[1:]
             sent = re.sub(r"([A-Z]{2,})", lambda x: x.group(1).capitalize(), sent) # Replace all CAPS with capitalize
             return sent
         return

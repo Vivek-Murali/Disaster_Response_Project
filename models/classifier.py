@@ -66,6 +66,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
     y_pred = model.predict(X_test)
     y_pred_df = pd.DataFrame(y_pred, columns=category_names)
     evaluation = {}
+    # Evaluting for Each column
     for column in Y_test.columns:
         evaluation[column] = []
         evaluation[column].append(precision_score(Y_test[column], y_pred_df[column]))
