@@ -6,7 +6,7 @@ This is the Simple implementation of Disaster Response Pipeline
 3: data-> Contains the ETL pipline code and process
 4. model -> Contains the ML pipline code
 
-File Structure
+File Structure<br>
     app
     | - template
     | |- index.html # main page of web app
