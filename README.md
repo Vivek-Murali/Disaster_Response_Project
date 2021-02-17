@@ -7,26 +7,26 @@ This is the Simple implementation of Disaster Response Pipeline
 4. model -> Contains the ML pipline code
 
 File Structure<br>
-    app
-    | - template
-    | |- index.html # main page of web app
-    | |- results.html # Serving post request to the frontend. 
-    | - models
-    | |- classifier_handler.py
-    | - static
-    | |- wordcloud.png
-    | - app.py # Flask file that runs app
-    data
-    |- disaster_categories.csv # data to process
-    |- disaster_messages.csv # data to process
-    |- process_data.py
-    |- disaster_response.db # database to save clean data to
-    models
-    |- train_classifier.py
-    |- classifier.pkl # saved model
-    notebooks
-    |- ETL_PIPELINE.ipynb
-    |- ML_PIPELINE.ipynb
+    app<br>
+    | - template<br>
+    | |- index.html # main page of web app<br>
+    | |- results.html # Serving post request to the frontend. <br>
+    | - models<br>
+    | |- classifier_handler.py<br>
+    | - static<br>
+    | |- wordcloud.png<br>
+    | - app.py # Flask file that runs app<br>
+    data<br>
+    |- disaster_categories.csv # data to process<br>
+    |- disaster_messages.csv # data to process<br>
+    |- process_data.py<br>
+    |- disaster_response.db # database to save clean data to<br>
+    models<br>
+    |- train_classifier.py<br>
+    |- classifier.pkl # saved model<br>
+    notebooks<br>
+    |- ETL_PIPELINE.ipynb<br>
+    |- ML_PIPELINE.ipynb<br>
     README.md
 
 
