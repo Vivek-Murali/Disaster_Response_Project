@@ -15,6 +15,7 @@ from sklearn.metrics import precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn.metrics import classification_report
 
 
 def load_data(database_filepath):
@@ -72,7 +73,9 @@ def evaluate_model(model, X_test, Y_test, category_names):
         evaluation[column].append(precision_score(Y_test[column], y_pred_df[column]))
         evaluation[column].append(recall_score(Y_test[column], y_pred_df[column]))
         evaluation[column].append(f1_score(Y_test[column], y_pred_df[column]))
-    print(pd.DataFrame(evaluation))
+    print(classification_report(Y_test, y_pred, target_names=category_names))
+    
+    #print(pd.DataFrame(evaluation))
 
 
 def save_model(model, model_filepath):
@@ -81,6 +84,8 @@ def save_model(model, model_filepath):
 
 
 def main():
+    """Preforms Main Operations
+    """
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))

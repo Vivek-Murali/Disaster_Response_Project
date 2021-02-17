@@ -65,10 +65,13 @@ def clean_data(df):
 def save_data(df, database_filename):
     '''Saves the cleaned dataframe to a table messages in the database given'''
     engine = create_engine('sqlite:///'+ database_filename)
-    df.to_sql('messages', engine, index=False) 
+    df.to_sql('messages', engine, index=False,if_exists= "replace") 
 
 
 def main():
+    """
+    Preforms Main Operations
+    """
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]

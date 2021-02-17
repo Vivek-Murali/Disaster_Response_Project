@@ -5,19 +5,26 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 
 import joblib
-from sqlalchemy import create_engine
+
 
 from wordcloud import WordCloud, STOPWORDS 
 import matplotlib.pyplot as plt 
 
 
 class Classifier:
-    def __init__(self):
-        self.engine = create_engine('sqlite:///../data/disaster_response.db')
-        self.df = pd.read_sql_table('messages1', self.engine)
-        self.model = joblib.load("../models/XGB_Model.pkl")
+    def __init__(self,df,model):
+        self.model = model
+        self.df = df
 
     def classify(self,text:str)->dict:
+        """[summary]
+
+        Args:
+            text (str): [description]
+
+        Returns:
+            dict: [description]
+        """
         classification_labels = self.model.predict([text])[0]
         classification_results = dict(zip(self.df.columns[4:], classification_labels))
         return classification_results
@@ -58,10 +65,6 @@ class Classifier:
 
         return clean_tokens
 
-
-if __name__ == "__main__":
-    api = Classifier()
-    api.create_wordcloud()
 
 
 

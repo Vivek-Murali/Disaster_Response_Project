@@ -1,17 +1,26 @@
 from flask import Flask
 from flask import render_template, request, jsonify
 from models.classifier_handler import Classifier
+
+import joblib
 import plotly
 from plotly.graph_objs import Bar
 import json
+from sqlalchemy import create_engine
+import pandas as pd
 
 
 
 app = Flask(__name__)  # '__main__'
 app.secret_key = "%&@Y@*9921QW((!!!@@344323621"
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+file_path
+# db = SQLAlchemy(app)
 
+engine = create_engine('sqlite:///app/models/Database/disaster_response.db')
+df = pd.read_sql_table('messages1', engine)
+model = joblib.load("app/models/XGB_Model.pkl")
 global api 
-api = Classifier()
+api = Classifier(df,model)
 
 @app.route('/')
 @app.route('/index')
