@@ -19,12 +19,11 @@ def load_data(messages_filepath:str, categories_filepath:str)->pd.DataFrame:
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     df = pd.merge(messages, categories, on='id', how='outer')
-    df.dropna(inplace=True)
     return df
 
 
 def process_text(sent):
-        if sent not in [" ", "\n", ""]:
+        if sent not in [" ", "\n", ""] and type(sent) == str:
             sent = sent.strip("\n")            
             sent = re.sub('<[A-Z]+/*>', '', sent) # remove special tokens eg. <FIL/>, <S>
             sent = re.sub(r"[\*\"\n\\…\+\-\/\=\(\)‘•€\[\]\|♫:;—”“~`#]", "", sent)
@@ -59,6 +58,7 @@ def clean_data(df):
     df = df.drop_duplicates(keep='first')
     df['clean_message'] = df.message.apply(lambda x:process_text(x))
     df['clean_original'] = df.original.apply(lambda x: process_text(x))
+    df['related'].replace(2, 1, inplace=True)
     return df
     
 

@@ -9,6 +9,11 @@ import json
 from sqlalchemy import create_engine
 import pandas as pd
 
+import os
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+
+import pickle
 
 
 app = Flask(__name__)  # '__main__'
@@ -16,11 +21,38 @@ app.secret_key = "%&@Y@*9921QW((!!!@@344323621"
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+file_path
 # db = SQLAlchemy(app)
 
-engine = create_engine('sqlite:///app/models/Database/disaster_response.db')
-df = pd.read_sql_table('messages1', engine)
-model = joblib.load("app/models/XGB_Model.pkl")
+
+def tokenize(text):
+    tokens = word_tokenize(text)
+    lemmatizer = WordNetLemmatizer()
+
+    clean_tokens = []
+    for tok in tokens:
+        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+        clean_tokens.append(clean_tok)
+
+    return clean_tokens
+
+
+PARENT_Folder = os.getcwd()
+DATABASE = "data/disaster_response.db"
+DATABASE_FILE = os.path.join(PARENT_Folder,DATABASE)
+print("Database path :{}".format(DATABASE_FILE))
+print(os.getcwd())
+engine = create_engine('sqlite:///'+DATABASE_FILE)
+df = pd.read_sql_table('messages', engine)
+
+MODEL = 'models/classifier.pkl'
+MODEL_FILE = os.path.join(PARENT_Folder,MODEL)
+with open(MODEL_FILE,'rb') as fp:
+    model = pickle.load(fp)
+
+
+# model = joblib.load("app/models/XGB_Model.pkl")
 global api 
 api = Classifier(df,model)
+
+
 
 @app.route('/')
 @app.route('/index')
